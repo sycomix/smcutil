@@ -32,22 +32,12 @@ fan_where = {
 
 def key2header(key):
    if key[0] == 'F': # Fan
-      if key[2:4] in fan_where:
-         where = fan_where[key[2:4]]
-      else:
-         where = key[2:4]
-      s = "Fan_%s_%s_RPM"%(key[1], where)
+      where = fan_where[key[2:4]] if key[2:4] in fan_where else key[2:4]
+      return f"Fan_{key[1]}_{where}_RPM"
    else:
-      if key[1] in known_ones:
-         who = known_ones[key[1]]
-      else:
-         who = key[1]
-      if key[3] in wheres:
-         where = wheres[key[3]]
-      else:
-         where = key[3]
-      s = "%s_%s_%s_%s"%(key[0], who, key[2], where)
-   return s
+      who = known_ones[key[1]] if key[1] in known_ones else key[1]
+      where = wheres[key[3]] if key[3] in wheres else key[3]
+      return f"{key[0]}_{who}_{key[2]}_{where}"
 
 DEFAULT_LIST = [
    'F0Ac', 'F0Tg',
